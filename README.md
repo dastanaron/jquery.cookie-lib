@@ -18,43 +18,48 @@
 
 **$.cookie.toString()** - возвращает куки в стандартном представлении JavaScript (аналог document.cookie)
 
-**$.cookie.object** - объект со всеми cookie, которые имеются
+**$.cookie.show()** - выведет объект со всеми cookie, которые имеются
 
-**$.cookie.save()** - метод сохраняющий новые куки или измененные старые.
+**$.cookie.save(name, value, options)** - метод сохраняющий новые куки или измененные старые. Лучше использовать для обновления имеющихся. Первым параметром будет его название, 
+вторым - значение, третьим должен быть объект содержащий путь сохранения кук и время на которое будет сохранено в секундах. Для добавления лучше использовать метод **$.cookie.add(name, value, options)**
+
+**$.cookie.saveObject()** - сохраняет куки из объекта $.cookie.object, если они там есть. В $.cookie.object нужно записывать в виде {название:значение}
+
+**$.cookie.add(name, value, options)** - добавляет куки с именем name, значением - value и опциями по пути и времени сохранения
+
+**$.cookie.remove(name)** - удаляет куки с именем, должно быть строкой. 
 
 Как работать!
 ---------------
 
-Примеры будут для консоли, а используйте где удобно
+Примеры будут для консоли, а используйте где удобно. Обратите внимание что в файле индекса одно cookie уже задано с помощью php
 
 ```js
-$.cookie.object
+//Добавляем куки без параметров
+$.cookie.add('param5', 'false');
 
+//Смотрим
+$.cookie.show();
+
+//Выведет: {param1: "test", param5: "false"}
+
+//Удаляем куки
+$.cookie.remove('param5');
+
+//Добавляем куки с параметрам, в корень домена, и на 60 секунд
+$.cookie.add('popupshow', 'true', {path: '/', expires: 60});
+
+//Смотрим
+$.cookie.show();
+//Выведет {param1: "test", popupshow: "true"}
 ```
 
-```
-{popup: "true", ololo: "null", param: "test", param2: "test2"}
-```
-
-```js
-//Создаем новый куки
-$.cookie.object.newcookie = 'test-cookie';
-//Записываем его
-$.cookie.save();
-
-//Проверяем
-$.cookie.toString();
-
-//или так
-document.cookie //стандартный метод js.
-```
-
-увидите что-то типа этого, по порядку команд, естественно куки я создал свои, у вас будут другие.
+Добавление куки с помоощью объекта или массово на одну сессию, пример на одном
 
 ```
 $.cookie.object.newcookie = 'test-cookie';
 "test-cookie"
-$.cookie.save()
+$.cookie.saveObject();
 undefined
 $.cookie.toString()
 "popup=true; ololo=null; param=test; param2=test2; newcookie=test-cookie"
@@ -62,13 +67,4 @@ document.cookie
 "popup=true; ololo=null; param=test; param2=test2; newcookie=test-cookie"
 ```
 
-Перезаписать отдельный cookie
-
-```
-$.cookie.object.popup = 'false';
-"false"
-$.cookie.save();
-undefined
-$.cookie.toString()
-"popup=false; ololo=null; param=test; param2=test2; newcookie=test-cookie"
-```
+Перезаписать отдельный cookie можно через команду add или save, она все равно перезапишет, если вы в первый параметр передадите существующее имя
