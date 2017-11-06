@@ -1,10 +1,6 @@
 if(typeof window.$ == 'undefined') {
-	function $() {
-
-	};
+    var $ = new Array();
 }
-
-functio
 
 $.cookie = {
 	
@@ -118,6 +114,23 @@ $.lstorage = {
 		return window.localStorage;
 	},
 };
+
+
+if(typeof window.$ == 'undefined') {
+
+	function $(param) {
+		if(param == 'cookie') {
+			return $.cookie;
+		}
+		else if(param == 'storage') {
+			return $.lstorage;
+		}
+		else {
+			throw new Error('Undefined params');
+		}
+	}
+
+}
 
 function getCookies()
 {
