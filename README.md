@@ -1,4 +1,4 @@
-Описание
+cookie-storage-lib
 ==============
 
 [На русском](README_RU.md)
@@ -28,7 +28,7 @@ Version History
 1. Added methods for working with LocalStorage
 2. Doubled description in English
 
-Описание методов и свойств
+Methods
 --------------------------
 
 ### $.cookie
