@@ -1,70 +1,107 @@
 Описание
 ==============
 
-Данный скрипт написан как маленькая библиотека для работы с cookie.
-Все наверняка сталкивались с проблемами при работе с cookie со стороны JavaScript
+[На русском](README_RU.md)
 
-Данный скрипт решает множество проблем с проверками определенных cookie,
-а также помогает создавать и записывать новые без особого труда.
+This script is written as a small library for working with cookies.
+Everyone has probably encountered problems when working with JavaScript cookie
 
-Для работы требуется jQuery, любой версии, можно и без нее, тогда, нужно будет внести правки
-в заполнении объекта куками. Я сделал с jQuery, чтобы легче было наполнить, точно зная, что вся
-структура уже загрузилась. Знаю, что куки грузятся раньше, но всякое бывает
+This script solves many problems with checking certain cookies,
+and also helps to create and record new ones without much difficulty.
+
+To work requires jQuery, any version, you can and without it, then you will need to make edits
+in filling the object with cookies.
+
+Version History
+=====================
+
+1.0.1
+--------------
+1. Updated methods for saving and updating.
+2. Added new methods
+3. Corrected work of the cookie.object
+4. Updated description in README.md
+
+1.1.0
+-------------
+
+1. Added methods for working with LocalStorage
+2. Doubled description in English
 
 Описание методов и свойств
 --------------------------
 
-**$.cookie** - общий объект, в котором хранятся методы и свойство с куками
+### $.cookie
 
-**$.cookie.toString()** - возвращает куки в стандартном представлении JavaScript (аналог document.cookie)
+**$.cookie** - a common object that stores methods and a property with cookies
 
-**$.cookie.show()** - выведет объект со всеми cookie, которые имеются
+**$.cookie.toString()** - returns cookies in the standard JavaScript view (similar to document.cookie)
 
-**$.cookie.save(name, value, options)** - метод сохраняющий новые куки или измененные старые. Лучше использовать для обновления имеющихся. Первым параметром будет его название, 
-вторым - значение, третьим должен быть объект содержащий путь сохранения кук и время на которое будет сохранено в секундах. Для добавления лучше использовать метод **$.cookie.add(name, value, options)**
+**$.cookie.show()** - displays the object with all the cookies that are available
 
-**$.cookie.saveObject()** - сохраняет куки из объекта $.cookie.object, если они там есть. В $.cookie.object нужно записывать в виде {название:значение}
+**$.cookie.save(name, value, options)** - method that stores new cookies or changed old ones. It is better to use to update existing ones. The first parameter will be its name,
+the second is the value, the third must be an object containing the path of saving the cookie and the time for which it will be stored in seconds. To add, it's better to use the method ** $. Cookie.add (name, value, options) **
 
-**$.cookie.add(name, value, options)** - добавляет куки с именем name, значением - value и опциями по пути и времени сохранения
+**$.cookie.saveObject()** - saves cookies from the $ .cookie.object object if they are there. In $ .cookie.object it is necessary to write down in the form {name: value}
 
-**$.cookie.remove(name)** - удаляет куки с именем, должно быть строкой. 
+**$.cookie.add(name, value, options)** - adds cookies with the name name, value - value and options along the path and time of saving
 
-Как работать!
+**$.cookie.remove(name)** - deletes cookies with a name, it must be a string.
+ 
+### $. lstorage
+
+**$.lstorage** - common object for working with the local storage of the browser
+
+**$.lstorage.add(key, value)** - adds a new element to the local store with key and value. If value is an object, then it will be serialized in a JSON-string
+
+**$. lstorage.get(key)** - get the property from localStorage with the key
+
+**$. lstorage.view()** - show the entire contents of LocalStorage
+
+**$. lstorage.delete(key)** - removes from the repository a property with the key
+
+**$.lstorage.clear()** - clears LocalStorage
+
+
+Examples
 ---------------
-
-Примеры будут для консоли, а используйте где удобно. Обратите внимание что в файле индекса одно cookie уже задано с помощью php
-
 ```js
-//Добавляем куки без параметров
 $.cookie.add('param5', 'false');
 
-//Смотрим
 $.cookie.show();
 
-//Выведет: {param1: "test", param5: "false"}
+//output: {param1: "test", param5: "false"}
 
-//Удаляем куки
+//removed cookie
 $.cookie.remove('param5');
 
-//Добавляем куки с параметрам, в корень домена, и на 60 секунд
+//Added cookie on root, and at the 60 seconds
 $.cookie.add('popupshow', 'true', {path: '/', expires: 60});
 
-//Смотрим
 $.cookie.show();
-//Выведет {param1: "test", popupshow: "true"}
+//output {param1: "test", popupshow: "true"}
 ```
 
-Добавление куки с помоощью объекта или массово на одну сессию, пример на одном
+Example in the console with the addition from the object
 
 ```
-$.cookie.object.newcookie = 'test-cookie';
+> $.cookie.object.newcookie = 'test-cookie';
 "test-cookie"
-$.cookie.saveObject();
+> $.cookie.saveObject();
 undefined
-$.cookie.toString()
+> $.cookie.toString()
 "popup=true; ololo=null; param=test; param2=test2; newcookie=test-cookie"
-document.cookie
+> document.cookie
 "popup=true; ololo=null; param=test; param2=test2; newcookie=test-cookie"
 ```
 
-Перезаписать отдельный cookie можно через команду add или save, она все равно перезапишет, если вы в первый параметр передадите существующее имя
+LocalStorage Examples
+-------------------------
+
+```js
+$.lstorage.add('obj', {key1: 'test', 'key2': 'test2'}); //Added object in to LocalStorage
+
+$.lstorage.view(); //show
+
+//output: [object Storage]{length: 1, obj: "{"key1":"te..."}
+```

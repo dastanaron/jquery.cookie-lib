@@ -41,7 +41,6 @@ $.cookie = {
 			query += 'expires=' + expires.toUTCString();
 			options.expires = expires.toUTCString();
 		  }
-		//console.log(query);
 		document.cookie = query;
 		
 	},
@@ -69,6 +68,47 @@ $.cookie = {
 		this.save(name, '', {expires: -60});
 	},
 	
+};
+
+
+$.lstorage = {
+	add: function (key, value) {
+
+        try {
+			if(typeof value == 'object') {
+				return this.addObject(key, value);
+			}
+			else if (typeof value == 'string' || typeof value == 'number') {
+                return this.addString(key, value);
+			}
+			else {
+				console.error('2 parameter does not belong to a known type');
+			}
+        } catch (e) {
+            if (e == QUOTA_EXCEEDED_ERR) {
+                console.error('LocalStorage is exceeded the free space limit');
+            }
+        }
+
+	},
+	addObject: function (key, object) {
+        return window.localStorage.setItem(key, JSON.stringify(object));
+	},
+	addString: function (key, value) {
+        return window.localStorage.setItem(key, value);
+	},
+	get: function (key) {
+		return window.localStorage.getItem(key);
+	},
+	clear: function () {
+		return window.localStorage.clear();
+	},
+	delete: function(key) {
+		return window.localStorage.removeItem(key);
+	},
+	view: function () {
+		return window.localStorage;
+	},
 };
 
 function getCookies()
