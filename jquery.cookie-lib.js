@@ -1,3 +1,11 @@
+if(typeof window.$ == 'undefined') {
+	function $() {
+
+	};
+}
+
+functio
+
 $.cookie = {
 	
 	object: {},
